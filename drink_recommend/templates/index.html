@@ -36,13 +36,17 @@
                         <button class="option-btn" onclick="selectMood('甘い')">🍬 甘いものが飲みたい</button>
                         <button class="option-btn" onclick="selectMood('食事に合う')">🍽️ 食事に合わせたい</button>
                     </div>
+                    <button class="back-btn" onclick="goBackToStep1()">◀ 前の質問に戻る</button>
                 </div>
 
                 <!-- Results (hidden) -->
                 <div id="stepResult" style="display:none">
                     <p class="step-question">✨ おすすめはこちら！</p>
                     <div id="recommendResults"></div>
-                    <button class="reset-btn" onclick="resetRecommend()">もう一度選び直す</button>
+                    <div class="button-group">
+                        <button class="back-btn" onclick="goBackToStep2()">◀ 前の質問に戻る</button>
+                        <button class="reset-btn" onclick="resetRecommend()">最初から選び直す</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -164,6 +168,18 @@ async function selectMood(mood) {
             </div>
         </div>
     `).join("");
+}
+
+function goBackToStep1() {
+    selectedType = null;
+    document.getElementById("step2").style.display = "none";
+    document.getElementById("stepResult").style.display = "none";
+    document.getElementById("step1").style.display = "block";
+}
+
+function goBackToStep2() {
+    document.getElementById("stepResult").style.display = "none";
+    document.getElementById("step2").style.display = "block";
 }
 
 function resetRecommend() {
