@@ -346,3 +346,29 @@ button {
 #itemModalContent .menu-price {
   font-size: 1.6rem;
 }
+/* 「他の人の最近の注文」のタグデザイン */
+.tag-list {
+  display: flex;
+  gap: 10px; /* タグ同士の間隔 */
+  overflow-x: auto; /* 横スクロールを可能にする */
+  padding: 5px 2px;
+  white-space: nowrap; /* 改行を防ぐ */
+  -webkit-overflow-scrolling: touch; /* iOSでのスクロールを滑らかに */
+}
+
+/* スクロールバーを非表示にする（任意） */
+.tag-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tag-popular {
+  display: inline-block;
+  background-color: rgba(212, 175, 55, 0.15); /* アクセント色の薄い背景 */
+  color: var(--accent-color); /* 金色の文字 */
+  border: 1px solid var(--accent-color); /* 金色の枠線 */
+  padding: 6px 14px; /* 内側の余白 */
+  border-radius: 20px; /* 丸み */
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

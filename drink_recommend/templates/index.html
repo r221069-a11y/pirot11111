@@ -23,10 +23,16 @@
             <div id="step1">
               <p class="step-question">どちらにしますか？</p>
               <div class="option-grid">
-                <button class="option-btn" onclick="selectAlcoholType('non_alcohol')">
+                <button
+                  class="option-btn"
+                  onclick="selectAlcoholType('non_alcohol')"
+                >
                   🥤 ノンアルコール
                 </button>
-                <button class="option-btn" onclick="selectAlcoholType('alcohol')">
+                <button
+                  class="option-btn"
+                  onclick="selectAlcoholType('alcohol')"
+                >
                   🍺 アルコール
                 </button>
               </div>
@@ -196,6 +202,7 @@
           .join("");
       }
 
+      // index.html 内の loadPopular 関数を以下のように書き換え
       async function loadPopular() {
         try {
           const res = await fetch("/api/orders/recent");
@@ -207,14 +214,19 @@
               counts[i.name] = (counts[i.name] || 0) + i.quantity;
             }),
           );
+
+          // 注文数が多い順に並び替え
           const top = Object.entries(counts)
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
-            .map((e) => e[0]);
+            .slice(0, 5);
+
           if (top.length > 0) {
             document.getElementById("popularSection").style.display = "block";
             document.getElementById("popularList").innerHTML = top
-              .map((n) => `<span class="tag-popular">${n}</span>`)
+              .map(
+                ([name, count]) =>
+                  `<span class="tag-popular">${name} (${count}杯)</span>`,
+              ) // 件数も表示
               .join("");
           }
         } catch (e) {
@@ -242,10 +254,10 @@
       async function selectFlavor(flavor) {
         selectedFlavor = flavor;
         const params = new URLSearchParams();
-        params.append('type', selectedAlcoholType);
-        params.append('soda', encodeURIComponent(selectedSoda));
-        params.append('flavor', encodeURIComponent(selectedFlavor));
-        
+        params.append("type", selectedAlcoholType);
+        params.append("soda", encodeURIComponent(selectedSoda));
+        params.append("flavor", encodeURIComponent(selectedFlavor));
+
         const res = await fetch(`/api/recommend?${params.toString()}`);
         const items = await res.json();
         document.getElementById("step3").style.display = "none";
