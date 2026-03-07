@@ -22,6 +22,70 @@
   --font-jp: "Noto Sans JP", sans-serif;
 }
 
+/* Recommend */
+.recommend-box {
+  background: #fff7f0;
+  border: 1px solid #ffe0c4;
+  border-radius: 16px;
+  padding: 16px;
+}
+.step-question {
+  font-size: 14px;
+  font-weight: 700;
+  color: #b84a00;
+  margin-bottom: 12px;
+}
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.option-btn {
+  padding: 14px 8px;
+  border: 1.5px solid #ffcba4;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.option-btn:hover {
+  background: #fff0e6;
+  border-color: #e06000;
+}
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.button-group button {
+  flex: 1;
+}
+.back-btn {
+  font-size: 12px;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.back-btn:hover {
+  background: #e5e7eb;
+}
+.reset-btn {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #e07030;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* --- PC側の背景（スマホを目立たせるために少し明るいグレーに） --- */
 body {
   background-color: #333;

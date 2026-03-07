@@ -241,6 +241,18 @@
           )
           .join("");
       }
+      
+      function goBackToStep1() {
+        selectedType = null;
+        document.getElementById("step2").style.display = "none";
+        document.getElementById("stepResult").style.display = "none";
+        document.getElementById("step1").style.display = "block";
+      }
+
+      function goBackToStep2() {
+          document.getElementById("stepResult").style.display = "none";
+          document.getElementById("step2").style.display = "block";
+      }
 
       function goBackToStep1() {
         selectedType = null;
