@@ -19,10 +19,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .option-btn:hover { background: #fff0e6; border-color: #e06000; }
 .button-group { display: flex; gap: 8px; margin-top: 12px; }
 .button-group button { flex: 1; }
-.back-btn { font-size: 12px; color: #6b7280; background: #f3f4f6; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+.back-btn { font-size: 12px; color: #b1bacc; background: #432501; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
 .back-btn:hover { background: #e5e7eb; }
 /*.reset-btn { margin-top: 12px; font-size: 12px; color: #e07030; background: none; border: none; text-decoration: underline; cursor: pointer; }*/
-.reset-btn { font-size: 12px; color: #6b7280; background: #f3f4f6; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+.reset-btn { font-size: 12px; color: #b1bacc; background: #432501; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
 
 /* Recommend result card */
 .rec-card { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #ffe0c4; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
