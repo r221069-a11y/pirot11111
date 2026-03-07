@@ -42,14 +42,13 @@ body {
   border: 6px solid #ffffff;
   border-radius: 40px;
 
-  overflow-y: auto; /* スマホの「枠の中」だけでスクロールさせる */
-  overflow-x: hidden;
-
-  /* ポップアップやカートをこの枠内に閉じ込めるCSSの魔法 */
-  transform: translateZ(0);
+  overflow: hidden; /* スクロール禁止（.mainで処理） */
   position: relative;
 
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); /* 端末の影 */
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* スマホ画面内のスクロールバーを見えなくする（よりアプリっぽく） */
@@ -124,6 +123,7 @@ body {
   top: 0;
   z-index: 10;
   backdrop-filter: blur(5px);
+  flex-shrink: 0;
 }
 .header h1 {
   font-family: var(--font-serif);
@@ -134,6 +134,8 @@ body {
   margin: 0;
 }
 .main {
+  flex: 1;
+  overflow-y: auto;
   padding: 15px;
   padding-bottom: 90px; /* カートが重ならないように下部余白 */
 }
@@ -211,7 +213,7 @@ button {
 
 /* --- Modal Overlays (Popups) --- */
 .modal-overlay {
-  position: fixed; /* 白い枠線の中だけで全画面になります */
+  position: fixed; /* ビューポート全体に固定 */
   top: 0;
   left: 0;
   width: 100%;
@@ -245,7 +247,7 @@ button {
 
 /* --- Cart Bar --- */
 .cart-bar {
-  position: fixed; /* 白い枠線の底に張り付きます */
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -261,6 +263,7 @@ button {
   /* 丸い枠線の内側にフィットさせる角丸 */
   border-bottom-left-radius: 34px;
   border-bottom-right-radius: 34px;
+  flex-shrink: 0;
 }
 .cart-count {
   background: var(--accent-color);

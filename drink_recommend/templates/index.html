@@ -19,32 +19,28 @@
         <section class="section">
           <h2 class="section-title">気分で選ぶ☝️</h2>
           <div class="recommend-box" id="recommendBox">
+            <!-- ステップ1：アルコール/ノンアルコール選択 -->
             <div id="step1">
               <p class="step-question">どちらにしますか？</p>
               <div class="option-grid">
-                <button class="option-btn" onclick="selectType('soft_drink')">
+                <button class="option-btn" onclick="selectAlcoholType('non_alcohol')">
                   🥤 ノンアルコール
                 </button>
-                <button class="option-btn" onclick="selectType('alcohol')">
+                <button class="option-btn" onclick="selectAlcoholType('alcohol')">
                   🍺 アルコール
                 </button>
               </div>
             </div>
 
+            <!-- ステップ2：炭酸/炭酸なし選択 -->
             <div id="step2" style="display: none">
-              <p class="step-question">どんな気分ですか？</p>
+              <p class="step-question">炭酸は？</p>
               <div class="option-grid">
-                <button class="option-btn" onclick="selectMood('リラックス')">
-                  💤 リラックスしたい
+                <button class="option-btn" onclick="selectSoda('炭酸')">
+                  🫧 炭酸
                 </button>
-                <button class="option-btn" onclick="selectMood('さっぱり')">
-                  🍋 さっぱりしたい
-                </button>
-                <button class="option-btn" onclick="selectMood('甘い')">
-                  🍬 甘いものが飲みたい
-                </button>
-                <button class="option-btn" onclick="selectMood('食事に合う')">
-                  🍽️ 食事に合わせたい
+                <button class="option-btn" onclick="selectSoda('炭酸なし')">
+                  😌 炭酸なし
                 </button>
               </div>
               <button class="back-btn" onclick="goBackToStep1()">
@@ -52,11 +48,28 @@
               </button>
             </div>
 
+            <!-- ステップ3：甘め/辛口選択 -->
+            <div id="step3" style="display: none">
+              <p class="step-question">味わいは？</p>
+              <div class="option-grid">
+                <button class="option-btn" onclick="selectFlavor('甘め')">
+                  🍯 甘め
+                </button>
+                <button class="option-btn" onclick="selectFlavor('辛口')">
+                  🥃 辛口すっきり
+                </button>
+              </div>
+              <button class="back-btn" onclick="goBackToStep2()">
+                ◀ 前の質問に戻る
+              </button>
+            </div>
+
+            <!-- 結果表示 -->
             <div id="stepResult" style="display: none">
               <p class="step-question">✨ おすすめはこちら💁</p>
               <div id="recommendResults"></div>
               <div class="button-group">
-                <button class="back-btn" onclick="goBackToStep2()">
+                <button class="back-btn" onclick="goBackToStep3()">
                   ◀ 前の質問に戻る
                 </button>
                 <button class="reset-btn" onclick="resetRecommend()">
@@ -209,22 +222,35 @@
         }
       }
 
-      // ===== レコメンド =====
-      function selectType(type) {
-        selectedType = type;
+      // ===== レコメンド（3軸フィルタリング） =====
+      let selectedAlcoholType = null;
+      let selectedSoda = null;
+      let selectedFlavor = null;
+
+      function selectAlcoholType(type) {
+        selectedAlcoholType = type;
         document.getElementById("step1").style.display = "none";
         document.getElementById("step2").style.display = "block";
       }
 
-      async function selectMood(mood) {
-        const res = await fetch(
-          `/api/recommend?type=${selectedType}&mood=${encodeURIComponent(mood)}`,
-        );
-        const items = await res.json();
+      function selectSoda(soda) {
+        selectedSoda = soda;
         document.getElementById("step2").style.display = "none";
+        document.getElementById("step3").style.display = "block";
+      }
+
+      async function selectFlavor(flavor) {
+        selectedFlavor = flavor;
+        const params = new URLSearchParams();
+        params.append('type', selectedAlcoholType);
+        params.append('soda', encodeURIComponent(selectedSoda));
+        params.append('flavor', encodeURIComponent(selectedFlavor));
+        
+        const res = await fetch(`/api/recommend?${params.toString()}`);
+        const items = await res.json();
+        document.getElementById("step3").style.display = "none";
         document.getElementById("stepResult").style.display = "block";
 
-        // 修正箇所：こちらもIDだけを渡すように変更
         document.getElementById("recommendResults").innerHTML = items
           .map(
             (item) => `
@@ -243,33 +269,36 @@
       }
 
       function goBackToStep1() {
-        selectedType = null;
+        selectedAlcoholType = null;
+        selectedSoda = null;
+        selectedFlavor = null;
         document.getElementById("step2").style.display = "none";
+        document.getElementById("step3").style.display = "none";
         document.getElementById("stepResult").style.display = "none";
         document.getElementById("step1").style.display = "block";
       }
 
       function goBackToStep2() {
+        selectedSoda = null;
+        selectedFlavor = null;
+        document.getElementById("step3").style.display = "none";
         document.getElementById("stepResult").style.display = "none";
         document.getElementById("step2").style.display = "block";
       }
 
-      function goBackToStep1() {
-        selectedType = null;
-        document.getElementById("step2").style.display = "none";
+      function goBackToStep3() {
+        selectedFlavor = null;
         document.getElementById("stepResult").style.display = "none";
-        document.getElementById("step1").style.display = "block";
-      }
-
-      function goBackToStep2() {
-        document.getElementById("stepResult").style.display = "none";
-        document.getElementById("step2").style.display = "block";
+        document.getElementById("step3").style.display = "block";
       }
 
       function resetRecommend() {
-        selectedType = null;
+        selectedAlcoholType = null;
+        selectedSoda = null;
+        selectedFlavor = null;
         document.getElementById("stepResult").style.display = "none";
         document.getElementById("step2").style.display = "none";
+        document.getElementById("step3").style.display = "none";
         document.getElementById("step1").style.display = "block";
       }
 

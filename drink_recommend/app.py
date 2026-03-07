@@ -5,18 +5,18 @@ from datetime import datetime
 app = Flask(__name__)
 
 # ===== 簡易インメモリDB =====
-# （※画像のファイル名も仮で設定しておきました）
+# 3軸分類：type（アルコール/ノンアル）、soda（炭酸/炭酸なし）、flavor（甘め/辛口）
 MENU = [
-    {"id": "1", "name": "コーラ",         "type": "soft_drink", "price": 300, "description": "定番の炭酸飲料",       "tags": ["炭酸", "甘い"], "image": "1.jpg"},
-    {"id": "2", "name": "紅茶",           "type": "soft_drink", "price": 300, "description": "香り豊かな紅茶",       "tags": ["リラックス", "食事に合う"], "image": "2.jpg"},
-    {"id": "3", "name": "コーヒー",       "type": "soft_drink", "price": 350, "description": "食後の一杯に",         "tags": ["リラックス", "苦い"], "image": "3.jpg"},
-    {"id": "4", "name": "オレンジジュース","type": "soft_drink", "price": 300, "description": "果汁100%",            "tags": ["甘い", "子ども向け"], "image": "4.jpg"},
-    {"id": "5", "name": "レモネード",     "type": "soft_drink", "price": 350, "description": "さっぱりした味わい",   "tags": ["酸味", "さっぱり"], "image": "5.jpg"},
-    {"id": "6", "name": "生ビール",       "type": "alcohol",    "price": 500, "description": "キンキンに冷えてます", "tags": ["お酒", "炭酸", "定番"], "image": "6.jpg"},
-    {"id": "7", "name": "赤ワイン",       "type": "alcohol",    "price": 600, "description": "お肉料理に合います",   "tags": ["お酒", "芳醇"], "image": "7.jpg"},
-    {"id": "8", "name": "白ワイン",       "type": "alcohol",    "price": 600, "description": "お魚料理に合います",   "tags": ["お酒", "さっぱり"], "image": "8.jpg"},
-    {"id": "9", "name": "日本酒",         "type": "alcohol",    "price": 700, "description": "地元の銘酒",           "tags": ["お酒", "和食に合う"], "image": "9.jpg"},
-    {"id": "10","name": "レモンサワー",   "type": "alcohol",    "price": 450, "description": "爽やかな果実感",       "tags": ["お酒", "果実酒", "さっぱり"], "image": "10.jpg"},
+    # アルコール カクテル
+    {"id": "1", "name": "ミント・モーニ", "type": "alcohol", "soda": "炭酸", "flavor": "甘め", "price": 650, "description": "爽やかなミントと柑橘のカクテル", "tags": ["アルコール", "炭酸", "甘め"], "image": "1.jpg"},
+    {"id": "2", "name": "スパークリング・ジン・トニック", "type": "alcohol", "soda": "炭酸", "flavor": "辛口", "price": 700, "description": "定番の爽快感あるカクテル", "tags": ["アルコール", "炭酸", "辛口"], "image": "2.jpg"},
+    {"id": "3", "name": "ジン・カリンクリンク", "type": "alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 680, "description": "芳しいジンと甘い香りのカクテル", "tags": ["アルコール", "炭酸なし", "甘め"], "image": "3.jpg"},
+    {"id": "4", "name": "ハンビー・ワトコイル", "type": "alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 720, "description": "深みのある大人っぽいカクテル", "tags": ["アルコール", "炭酸なし", "辛口"], "image": "4.jpg"},
+    # ノンアルコール
+    {"id": "5", "name": "ピーチ・クラウド・ソーダ", "type": "non_alcohol", "soda": "炭酸", "flavor": "甘め", "price": 500, "description": "桃の香りが優しい炭酸飲料", "tags": ["ノンアル", "炭酸", "甘め"], "image": "5.jpg"},
+    {"id": "6", "name": "ダーク・ジンジャー・エスプレッソ", "type": "non_alcohol", "soda": "炭酸", "flavor": "辛口", "price": 550, "description": "ジンジャーの辛さが引き立つ", "tags": ["ノンアル", "炭酸", "辛口"], "image": "6.jpg"},
+    {"id": "7", "name": "ハニー・マスカット・ティー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 480, "description": "蜂蜜とマスカットの優しいティー", "tags": ["ノンアル", "炭酸なし", "甘め"], "image": "7.jpg"},
+    {"id": "8", "name": "スモークド・トマト・メアリー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 520, "description": "スパイシーで個性的な味わい", "tags": ["ノンアル", "炭酸なし", "辛口"], "image": "8.jpg"},
 ]
 
 orders = []  # 注文履歴を保持
@@ -37,15 +37,26 @@ def index():
 def get_menu():
     return jsonify(MENU)
 
-# ④ レコメンド機能のAPI
+# ④ レコメンド機能のAPI（3軸フィルタリング対応）
 @app.route("/api/recommend")
 def recommend():
-    alcohol_type = request.args.get("type")
-    mood_tag = request.args.get("mood")
-    results = [item for item in MENU if item["type"] == alcohol_type and mood_tag in item["tags"]]
+    alcohol_type = request.args.get("type")  # "alcohol" or "non_alcohol"
+    soda = request.args.get("soda")  # "炭酸" or "炭酸なし"
+    flavor = request.args.get("flavor")  # "甘め" or "辛口"
     
-    if not results:
+    results = MENU
+    
+    if alcohol_type:
+        results = [item for item in results if item["type"] == alcohol_type]
+    if soda:
+        results = [item for item in results if item["soda"] == soda]
+    if flavor:
+        results = [item for item in results if item["flavor"] == flavor]
+    
+    # マッチするものがなければ指定されたタイプのみで返す
+    if not results and alcohol_type:
         results = [item for item in MENU if item["type"] == alcohol_type][:3]
+    
     return jsonify(results)
 
 # ⑤ 注文を受け付けるAPI
