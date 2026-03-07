@@ -22,55 +22,324 @@
   --font-jp: "Noto Sans JP", sans-serif;
 }
 
-/* Recommend */
-.recommend-box { background: #fff7f0; border: 1px solid #ffe0c4; border-radius: 16px; padding: 16px; }
-.step-question { font-size: 14px; font-weight: 700; color: #b84a00; margin-bottom: 12px; }
-.option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.option-btn { padding: 14px 8px; border: 1.5px solid #ffcba4; background: #fff; border-radius: 12px; font-size: 13px; font-weight: 600; color: #444; cursor: pointer; transition: all 0.15s; }
-.option-btn:hover { background: #fff0e6; border-color: #e06000; }
-.button-group { display: flex; gap: 8px; margin-top: 12px; }
-.button-group button { flex: 1; }
-.back-btn { font-size: 12px; color: #6b7280; background: #f3f4f6; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
-.back-btn:hover { background: #e5e7eb; }
-/*.reset-btn { margin-top: 12px; font-size: 12px; color: #e07030; background: none; border: none; text-decoration: underline; cursor: pointer; }*/
-.reset-btn { font-size: 12px; color: #6b7280; background: #f3f4f6; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+/* --- PC側の背景（スマホを目立たせるために少し明るいグレーに） --- */
+body {
+  background-color: #333;
+  font-family: var(--font-jp);
+  color: var(--text-color);
+  line-height: 1.6;
+}
 
-/* Recommend result card */
-.rec-card { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #ffe0c4; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
-.add-btn-sm { font-size: 12px; background: #e86200; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; margin-top: 4px; }
+/* ＝＝＝ スマホの「端末」そのものを作る ＝＝＝ */
+.app,
+.welcome-container {
+  max-width: 430px;
+  margin: 3vh auto; /* 上下左右の中央付近に配置 */
+  height: 94vh; /* スマホ画面のように高さを固定 */
+  background-color: var(--bg-color);
 
-/* Popular tags */
-.tag-list { display: flex; gap: 8px; flex-wrap: wrap; }
-.tag-popular { background: #fff; border: 1px solid #ddd; border-radius: 20px; padding: 6px 12px; font-size: 12px; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  /* 白い外枠と角丸を設定！ */
+  border: 6px solid #ffffff;
+  border-radius: 40px;
 
-/* Menu cards */
-.menu-card { display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; border-radius: 14px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-.menu-info { flex: 1; }
-.menu-name { font-size: 15px; font-weight: 700; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
-.badge-alcohol { font-size: 10px; background: #e53e3e; color: white; padding: 2px 6px; border-radius: 6px; }
-.menu-desc { font-size: 12px; color: #888; margin-top: 4px; }
-.menu-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
-.tag { font-size: 10px; background: #f2f2f2; color: #888; padding: 2px 8px; border-radius: 6px; }
-.menu-right { text-align: right; padding-left: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.menu-price { font-size: 18px; font-weight: 700; }
-.add-btn { background: none; border: 1.5px solid #e86200; color: #e86200; padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; }
-.add-btn:hover { background: #fff0e6; }
+  overflow-y: auto; /* スマホの「枠の中」だけでスクロールさせる */
+  overflow-x: hidden;
 
-/* Cart bar */
-.cart-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: #1a1a1a; color: white; border-radius: 16px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.25); font-weight: 700; z-index: 20; }
-.cart-count { background: white; color: #1a1a1a; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; margin-left: 8px; }
-.cart-total { color: #ffb347; font-size: 16px; }
+  /* ポップアップやカートをこの枠内に閉じ込めるCSSの魔法 */
+  transform: translateZ(0);
+  position: relative;
 
-/* Modal */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; justify-content: center; z-index: 30; }
-.modal { background: white; width: 100%; max-width: 480px; border-radius: 20px 20px 0 0; padding: 24px; max-height: 80vh; overflow-y: auto; }
-.modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
-.cart-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; border-radius: 10px; padding: 12px; margin-bottom: 8px; border: 1px solid #eee; }
-.cart-item-info .cart-item-name { font-weight: 700; font-size: 14px; }
-.cart-item-info .cart-item-price { font-size: 12px; color: #888; margin-top: 2px; }
-.qty-control { display: flex; align-items: center; gap: 12px; }
-.qty-control button { background: #f0f0f0; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; font-weight: 700; }
-.total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 18px; padding: 16px 0; border-top: 1px solid #eee; margin-top: 8px; }
-.total-price { color: #e86200; }
-.order-btn { width: 100%; padding: 16px; background: #e86200; color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-.close-btn { width: 100%; padding: 12px; background: none; border: 1px solid #ddd; border-radius: 14px; font-size: 14px; cursor: pointer; margin-top: 8px; color: #888; }
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); /* 端末の影 */
+}
+
+/* スマホ画面内のスクロールバーを見えなくする（よりアプリっぽく） */
+.app::-webkit-scrollbar,
+.welcome-container::-webkit-scrollbar {
+  display: none;
+}
+.app,
+.welcome-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
+
+/* --- Welcome Page (welcome.html) --- */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+.logo-icon {
+  font-size: 5rem;
+  margin-bottom: 15px;
+  text-shadow: var(--neon-glow);
+}
+.shop-name {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  text-shadow: var(--neon-glow);
+}
+.message {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: #aaa;
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+.start-btn {
+  display: block;
+  width: 80%;
+  padding: 15px;
+  background-color: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: var(--neon-glow);
+  text-decoration: none;
+}
+.start-btn:hover {
+  background-color: var(--accent-color);
+  color: #000;
+}
+
+/* --- Main App Layout (index.html) --- */
+.app {
+  padding-bottom: 0;
+}
+.header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(10, 10, 10, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(5px);
+}
+.header h1 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  text-shadow: var(--neon-glow);
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+.main {
+  padding: 15px;
+  padding-bottom: 90px; /* カートが重ならないように下部余白 */
+}
+.section-title {
+  font-size: 1.1rem;
+  color: #ddd;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* --- Basic Elements --- */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.option-btn {
+  padding: 12px 5px;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  color: #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.option-btn:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+.back-btn,
+.reset-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  color: #888;
+  font-size: 0.9rem;
+}
+.reset-btn {
+  background-color: rgba(212, 175, 55, 0.1);
+  color: var(--accent-color);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* --- Menu Cards --- */
+.rec-card {
+  display: flex;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.menu-card {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+.menu-name {
+  font-family: var(--font-serif);
+  color: var(--text-color);
+}
+.menu-price {
+  font-family: var(--font-sans);
+  color: var(--accent-color);
+}
+
+/* --- Modal Overlays (Popups) --- */
+.modal-overlay {
+  position: fixed; /* 白い枠線の中だけで全画面になります */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+.modal {
+  width: 90%;
+  max-width: 360px;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  color: var(--text-color);
+  max-height: 90%;
+  overflow-y: auto;
+}
+.modal-title {
+  font-family: var(--font-serif);
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+/* --- Cart Bar --- */
+.cart-bar {
+  position: fixed; /* 白い枠線の底に張り付きます */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(10, 10, 10, 0.95);
+  border-top: 1px solid var(--accent-color);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  /* 丸い枠線の内側にフィットさせる角丸 */
+  border-bottom-left-radius: 34px;
+  border-bottom-right-radius: 34px;
+}
+.cart-count {
+  background: var(--accent-color);
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-left: 5px;
+  font-family: var(--font-sans);
+}
+.cart-total {
+  color: var(--accent-color);
+  font-weight: bold;
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+}
+
+/* Cart inside Modal */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qty-control button {
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.total-price {
+  color: var(--accent-color);
+  font-family: var(--font-sans);
+}
+.order-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--accent-color);
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  box-shadow: var(--neon-glow);
+}
+.close-btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #555;
+  background: transparent;
+  color: #ccc;
+  border-radius: 8px;
+}
+
+/* Item Modal (Popup) Special styles */
+#itemModalContent {
+  text-align: center;
+}
+#itemModalContent img {
+  border: 2px solid var(--border-color);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+#itemModalContent .modal-title {
+  border: none;
+}
+#itemModalContent .menu-price {
+  font-size: 1.6rem;
+}

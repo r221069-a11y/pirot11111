@@ -68,5 +68,4 @@ def recent_orders():
     return jsonify(orders[-20:])
 
 if __name__ == "__main__":
-    # 👇 ここが超重要！ host="0.0.0.0" にすることでスマホからアクセスできるようになります
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, port=5000)
