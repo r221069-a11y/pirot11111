@@ -8,15 +8,15 @@ app = Flask(__name__)
 # 3軸分類：type（アルコール/ノンアル）、soda（炭酸/炭酸なし）、flavor（甘め/辛口）
 MENU = [
     # アルコール カクテル
-    {"id": "1", "name": "ミント・モーニ", "type": "alcohol", "soda": "炭酸", "flavor": "甘め", "price": 650, "description": "爽やかなミントと柑橘のカクテル", "tags": ["アルコール", "炭酸", "甘め"], "image": "1.jpg"},
-    {"id": "2", "name": "スパークリング・ジン・トニック", "type": "alcohol", "soda": "炭酸", "flavor": "辛口", "price": 700, "description": "定番の爽快感あるカクテル", "tags": ["アルコール", "炭酸", "辛口"], "image": "2.jpg"},
-    {"id": "3", "name": "ジン・カリンクリンク", "type": "alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 680, "description": "芳しいジンと甘い香りのカクテル", "tags": ["アルコール", "炭酸なし", "甘め"], "image": "3.jpg"},
-    {"id": "4", "name": "ハンビー・ワトコイル", "type": "alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 720, "description": "深みのある大人っぽいカクテル", "tags": ["アルコール", "炭酸なし", "辛口"], "image": "4.jpg"},
+    {"id": "1", "name": "ミント・モーニ", "type": "alcohol", "soda": "炭酸", "flavor": "甘め", "price": 650, "description": "爽やかなミントと柑橘のカクテル", "tags": ["アルコール", "炭酸", "甘め"], "image": "ミント・モーニ.jpg"},
+    {"id": "2", "name": "スパークリング・ジン・トニック", "type": "alcohol", "soda": "炭酸", "flavor": "辛口", "price": 700, "description": "定番の爽快感あるカクテル", "tags": ["アルコール", "炭酸", "辛口"], "image": "スパークリング・ジン・トニック.jpg"},
+    {"id": "3", "name": "ジン・カリンクリンク", "type": "alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 680, "description": "芳しいジンと甘い香りのカクテル", "tags": ["アルコール", "炭酸なし", "甘め"], "image": "ジン・カリンクリンク.jpg"},
+    {"id": "4", "name": "ハンビー・ワトコイル", "type": "alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 720, "description": "深みのある大人っぽいカクテル", "tags": ["アルコール", "炭酸なし", "辛口"], "image": "ハンピー・ワトコイル.jpg"},
     # ノンアルコール
-    {"id": "5", "name": "ピーチ・クラウド・ソーダ", "type": "non_alcohol", "soda": "炭酸", "flavor": "甘め", "price": 500, "description": "桃の香りが優しい炭酸飲料", "tags": ["ノンアル", "炭酸", "甘め"], "image": "5.jpg"},
-    {"id": "6", "name": "ダーク・ジンジャー・エスプレッソ", "type": "non_alcohol", "soda": "炭酸", "flavor": "辛口", "price": 550, "description": "ジンジャーの辛さが引き立つ", "tags": ["ノンアル", "炭酸", "辛口"], "image": "6.jpg"},
-    {"id": "7", "name": "ハニー・マスカット・ティー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 480, "description": "蜂蜜とマスカットの優しいティー", "tags": ["ノンアル", "炭酸なし", "甘め"], "image": "7.jpg"},
-    {"id": "8", "name": "スモークド・トマト・メアリー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 520, "description": "スパイシーで個性的な味わい", "tags": ["ノンアル", "炭酸なし", "辛口"], "image": "8.jpg"},
+    {"id": "5", "name": "ピーチ・クラウド・ソーダ", "type": "non_alcohol", "soda": "炭酸", "flavor": "甘め", "price": 500, "description": "桃の香りが優しい炭酸飲料", "tags": ["ノンアル", "炭酸", "甘め"], "image": "ピーチ・クラウド・ソーダ.jpg"},
+    {"id": "6", "name": "ダーク・ジンジャー・エスプレッソ", "type": "non_alcohol", "soda": "炭酸", "flavor": "辛口", "price": 550, "description": "ジンジャーの辛さが引き立つ", "tags": ["ノンアル", "炭酸", "辛口"], "image": "ダーク・ジンジャー・エスプレッソ.jpg"},
+    {"id": "7", "name": "ハニー・マスカット・ティー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "甘め", "price": 480, "description": "蜂蜜とマスカットの優しいティー", "tags": ["ノンアル", "炭酸なし", "甘め"], "image": "ハニー・マスカット・ティー.jpg"},
+    {"id": "8", "name": "スモークド・トマト・メアリー", "type": "non_alcohol", "soda": "炭酸なし", "flavor": "辛口", "price": 520, "description": "スパイシーで個性的な味わい", "tags": ["ノンアル", "炭酸なし", "辛口"], "image": "スモークド・トマト・メアリー.jpg"},
 ]
 
 orders = []  # 注文履歴を保持
@@ -79,4 +79,5 @@ def recent_orders():
     return jsonify(orders[-20:])
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # host="0.0.0.0" にすることで外部からアクセスできるようになります
+    app.run(debug=True, port=8080)
