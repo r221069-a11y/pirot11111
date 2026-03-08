@@ -157,6 +157,8 @@
       window.onload = async () => {
         await loadMenu();
         loadPopular();
+        // 3秒（3000ミリ秒）ごとに最新の「みんなの注文」を裏側で取得して画面を更新する
+        setInterval(loadPopular, 3000);
       };
 
       async function loadMenu() {
