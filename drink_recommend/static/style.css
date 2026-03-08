@@ -373,3 +373,34 @@ button {
   font-weight: 500;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+/* =======================================================
+   📱 本物のスマホで見た時の設定（レスポンシブ対応）
+   画面幅が480px以下（スマホ）の時だけ、以下の設定が上書きされます
+======================================================= */
+@media (max-width: 480px) {
+  /* 白いダミー枠や余白を消して、画面いっぱいに広げる */
+  .app,
+  .welcome-container {
+    max-width: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    /* vh（固定）ではなく、dvh（動的）を使うことでSafariの上下バーを自動回避！ */
+    height: 100dvh;
+  }
+
+  /* カートバーが一番下にピッタリくっつくように角丸を解除 */
+  .cart-bar {
+    border-radius: 0;
+    /* iPhoneの画面下の横線（ホームインジケーター）に被らないように少し余白を足す */
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+  }
+
+  /* メインエリアのスクロールの底上げ */
+  .main {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
